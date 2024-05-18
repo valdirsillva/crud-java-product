@@ -13,4 +13,8 @@ public class ProductService {
     public void save(Product product) {
         this.productImpl.add(product);
     }
+
+    public void deleteById(String id) {
+        this.productImpl.delete(id);
+    }
 }

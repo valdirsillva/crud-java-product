@@ -40,8 +40,21 @@ public class ProductImpl implements IProduct {
 
     @Override
     public void delete(String id) {
-        // TODO Auto-generated method stub
+        try {
+            conexao = MysqlConn.getConn();
+            pstmt = conexao.prepareStatement("DELETE FROM product WHERE id = ?");
+            pstmt.setString(1, id);
+            int numRow = pstmt.executeUpdate();
 
+            if (numRow > 0) {
+                System.out.println("Produto excluído com sucesso!");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error code: " + e.getErrorCode());
+            System.out.println("SQL state: " + e.getSQLState());
+            System.out.println("Product not deleted:" + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     @Override
