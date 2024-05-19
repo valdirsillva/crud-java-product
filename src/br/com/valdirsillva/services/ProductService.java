@@ -14,6 +14,10 @@ public class ProductService {
         this.productImpl.add(product);
     }
 
+    public Product get(String id) {
+        return this.productImpl.findById(id);
+    }
+
     public void deleteById(String id) {
         this.productImpl.delete(id);
     }

@@ -24,7 +24,10 @@ public class MainTest {
 
 			switch (option) {
 				case 1:
-					System.out.println("Listar produtos cadastrados");
+					String id = "1825d6fb-6735-430d-abf3-28dda7d0e931";
+					Product pro = productService.get(id);
+
+					System.out.println(pro);
 					break;
 				case 2:
 					product.setName("Smartphone Galary A30");

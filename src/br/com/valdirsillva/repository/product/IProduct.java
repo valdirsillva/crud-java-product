@@ -10,7 +10,7 @@ public interface IProduct {
 
 	List<Product> list();
 
-	ProductImpl findById(String id);
+	Product findById(String id);
 
 	void update(String id);
 

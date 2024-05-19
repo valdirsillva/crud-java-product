@@ -3,8 +3,14 @@ package br.com.valdirsillva.repository.product;
 import java.util.List;
 import java.util.UUID;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 import br.com.valdirsillva.entity.Product;
 import br.com.valdirsillva.database.MysqlConn;
 
@@ -58,8 +64,43 @@ public class ProductImpl implements IProduct {
     }
 
     @Override
-    public ProductImpl findById(String id) {
-        // TODO Auto-generated method stub
+    public Product findById(String id) {
+        try {
+            conexao = MysqlConn.getConn();
+            pstmt = conexao.prepareStatement("SELECT * FROM product WHERE id = ?");
+
+            pstmt.setString(1, id);
+            ResultSet resultSet = pstmt.executeQuery();
+
+            while (resultSet.next()) {
+                Product product = new Product();
+
+                product.setId(UUID.fromString(resultSet.getString("id")));
+                product.setName(resultSet.getString("name"));
+                product.setPrice(resultSet.getDouble("price"));
+                product.setQuantity(resultSet.getInt("quantity"));
+                product.setDescription(resultSet.getString("description"));
+
+                // Retrieve the java.sql.Date from the ResultSet
+                java.sql.Date sqlDate = resultSet.getDate("createdAt");
+                if (sqlDate != null) {
+                    // Convert java.sql.Date to java.util.Date
+                    java.util.Date utilDate = new java.util.Date(sqlDate.getTime());
+                    // Convert java.util.Date to Instant
+                    Instant instant = utilDate.toInstant();
+                    // Convert Instant to LocalDateTime
+                    LocalDateTime createdAt = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+                    // Set LocalDateTime to Product
+                    product.setCreatedAt(createdAt);
+                }
+                return product;
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error code: " + e.getErrorCode());
+            System.out.println("SQL state: " + e.getSQLState());
+            e.printStackTrace();
+        }
         return null;
     }
 
