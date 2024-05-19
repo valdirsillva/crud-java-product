@@ -14,7 +14,7 @@ import java.time.ZoneId;
 
 import br.com.valdirsillva.entity.Product;
 import br.com.valdirsillva.factories.ProductFactory;
-import br.com.valdirsillva.database.MysqlConn;
+import br.com.valdirsillva.database.ConnectionManager;
 
 public class ProductImpl implements IProduct {
 
@@ -25,8 +25,7 @@ public class ProductImpl implements IProduct {
     @Override
     public void add(Product product) {
         try {
-
-            conexao = MysqlConn.getConn();
+            conexao = ConnectionManager.getInstance().getConnection();
             pstmt = conexao
                     .prepareStatement(
                             "INSERT INTO product (id, name, price, quantity, description)"
@@ -49,7 +48,7 @@ public class ProductImpl implements IProduct {
     @Override
     public void delete(String id) {
         try {
-            conexao = MysqlConn.getConn();
+            conexao = ConnectionManager.getInstance().getConnection();
             pstmt = conexao.prepareStatement("DELETE FROM product WHERE id = ?");
             pstmt.setString(1, id);
             int numRow = pstmt.executeUpdate();
@@ -68,7 +67,7 @@ public class ProductImpl implements IProduct {
     @Override
     public Product findById(String id) {
         try {
-            conexao = MysqlConn.getConn();
+            conexao = ConnectionManager.getInstance().getConnection();
             pstmt = conexao.prepareStatement("SELECT * FROM product WHERE id = ?");
 
             pstmt.setString(1, id);
@@ -110,7 +109,7 @@ public class ProductImpl implements IProduct {
     public List<Product> list() {
         List<Product> list = new ArrayList<Product>();
         try {
-            conexao = MysqlConn.getConn();
+            conexao = ConnectionManager.getInstance().getConnection();
             pstmt = conexao.prepareStatement("SELECT * FROM product");
             ResultSet rs = pstmt.executeQuery();
             // rs.next()

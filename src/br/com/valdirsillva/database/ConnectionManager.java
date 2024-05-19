@@ -3,13 +3,27 @@ package br.com.valdirsillva.database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-public class MysqlConn {
+public class ConnectionManager {
+
+    private static ConnectionManager instance;
+
     private final static String driver = "com.mysql.cj.jdbc.Driver";
     private final static String user = "MasterDB";
     private final static String password = "";
     private final static String url = "jdbc:mysql://localhost:3306/db_products";
 
-    public static Connection getConn() {
+    // Construtor privado
+    private ConnectionManager() {
+    }
+
+    public static ConnectionManager getInstance() {
+        if (instance == null) {
+            instance = new ConnectionManager();
+        }
+        return instance;
+    }
+
+    public Connection getConnection() {
         Connection connection = null;
         try {
             Class.forName(driver);
@@ -23,8 +37,6 @@ public class MysqlConn {
             System.out.println("printTrace /n");
             e.printStackTrace();
         }
-
         return connection;
     }
-
 }
