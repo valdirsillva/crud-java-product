@@ -1,5 +1,6 @@
 package br.com.valdirsillva.services;
 
+import java.util.List;
 import br.com.valdirsillva.entity.Product;
 import br.com.valdirsillva.repository.product.ProductImpl;
 
@@ -14,7 +15,12 @@ public class ProductService {
         this.productImpl.add(product);
     }
 
-    public Product get(String id) {
+    public List<Product> getAll() {
+        List<Product> productsList = this.productImpl.list();
+        return productsList;
+    }
+
+    public Product getById(String id) {
         return this.productImpl.findById(id);
     }
 

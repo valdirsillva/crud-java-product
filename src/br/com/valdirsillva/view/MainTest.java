@@ -1,5 +1,6 @@
 package br.com.valdirsillva.view;
 
+import java.util.List;
 import java.util.Scanner;
 
 import br.com.valdirsillva.entity.Product;
@@ -20,14 +21,19 @@ public class MainTest {
 			System.out.println("[1] Visualizar produtos em estoque");
 			System.out.println("[2] Cadastrar produto");
 			System.out.println("[3] Deletar produto");
+			System.out.println("[4] Recuperar produto pelo id");
 			option = inputMenu.nextInt();
 
 			switch (option) {
 				case 1:
-					String id = "1825d6fb-6735-430d-abf3-28dda7d0e931";
-					Product pro = productService.get(id);
+					List<Product> list = productService.getAll();
+					System.out.println(String.format(
+							"| %-20s | %-10s | %-10s | %-40s | %-15s |%n",
+							"Nome", "Preço", "Quantidade", "Descrição", "Data Criação"));
+					for (Product pro : list) {
+						System.out.println(pro);
+					}
 
-					System.out.println(pro);
 					break;
 				case 2:
 					product.setName("Smartphone Galary A30");
@@ -40,8 +46,11 @@ public class MainTest {
 				case 3:
 					String productId = "ac9d38a5-e678-4aa0-a814-61519ba06433";
 					productService.deleteById(productId);
-
 					break;
+				case 4:
+					String id = "1825d6fb-6735-430d-abf3-28dda7d0e931";
+					Product pro = productService.getById(id);
+					System.out.println(pro);
 
 				default:
 					break;

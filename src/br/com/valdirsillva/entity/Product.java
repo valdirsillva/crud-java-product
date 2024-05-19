@@ -75,8 +75,9 @@ public class Product implements Serializable {
 
     @Override
     public String toString() {
-        return "Product [name=" + name + ", price=" + price + ", quantity=" + quantity + ", description=" + description
-                + ", createdAt=" + createdAt + "]";
+        return String.format(
+                "%-23s R$ %-12.2f %-10d %-40s %-15s |%n",
+                name, price, quantity, description, createdAt);
     }
 
 }

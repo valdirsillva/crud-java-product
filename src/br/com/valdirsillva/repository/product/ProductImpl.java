@@ -1,9 +1,10 @@
 package br.com.valdirsillva.repository.product;
 
 import java.util.List;
+import java.util.ArrayList;
+
 import java.util.UUID;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -106,8 +107,40 @@ public class ProductImpl implements IProduct {
 
     @Override
     public List<Product> list() {
-        // TODO Auto-generated method stub
-        return null;
+        List<Product> list = new ArrayList<Product>();
+        try {
+            conexao = MysqlConn.getConn();
+            pstmt = conexao.prepareStatement("SELECT * FROM product");
+            ResultSet rs = pstmt.executeQuery();
+            // rs.next()
+            // Move o cursor para a próxima linha, iterando o conjunto de resultados
+            while (rs.next()) {
+                Product product = new Product();
+                product.setId(UUID.fromString(rs.getString("id")));
+                product.setName(rs.getString("name"));
+                product.setPrice(rs.getDouble("price"));
+                product.setQuantity(rs.getInt("quantity"));
+                product.setDescription(rs.getString("description"));
+                java.sql.Date sqlDate = rs.getDate("createdAt");
+                if (sqlDate != null) {
+                    // Convert java.sql.Date to java.util.Date
+                    java.util.Date utilDate = new java.util.Date(sqlDate.getTime());
+                    // Convert java.util.Date to Instant
+                    Instant instant = utilDate.toInstant();
+                    // Convert Instant to LocalDateTime
+                    LocalDateTime createdAt = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+                    // Set LocalDateTime to Product
+                    product.setCreatedAt(createdAt);
+                }
+                list.add(product);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro an list products:" + e.getMessage());
+            System.out.println("SQL state:" + e.getSQLState());
+            e.printStackTrace();
+        }
+        return list;
     }
 
     @Override
