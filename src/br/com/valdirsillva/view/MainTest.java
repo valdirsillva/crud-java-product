@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import br.com.valdirsillva.entity.Product;
+import br.com.valdirsillva.factories.ProductFactory;
 import br.com.valdirsillva.services.ProductService;
 
 public class MainTest {
@@ -11,7 +12,7 @@ public class MainTest {
 	public static void main(String[] args) {
 		try {
 			ProductService productService = new ProductService();
-			Product product = new Product();
+			Product product = ProductFactory.getProduct();
 
 			Scanner inputMenu = new Scanner(System.in);
 			int option;
@@ -51,7 +52,6 @@ public class MainTest {
 					String id = "1825d6fb-6735-430d-abf3-28dda7d0e931";
 					Product pro = productService.getById(id);
 					System.out.println(pro);
-
 				default:
 					break;
 			}

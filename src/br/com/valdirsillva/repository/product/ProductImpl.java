@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 import br.com.valdirsillva.entity.Product;
+import br.com.valdirsillva.factories.ProductFactory;
 import br.com.valdirsillva.database.MysqlConn;
 
 public class ProductImpl implements IProduct {
@@ -74,7 +75,7 @@ public class ProductImpl implements IProduct {
             ResultSet resultSet = pstmt.executeQuery();
 
             while (resultSet.next()) {
-                Product product = new Product();
+                Product product = ProductFactory.getProduct();
 
                 product.setId(UUID.fromString(resultSet.getString("id")));
                 product.setName(resultSet.getString("name"));
@@ -115,7 +116,8 @@ public class ProductImpl implements IProduct {
             // rs.next()
             // Move o cursor para a próxima linha, iterando o conjunto de resultados
             while (rs.next()) {
-                Product product = new Product();
+                Product product = ProductFactory.getProduct();
+
                 product.setId(UUID.fromString(rs.getString("id")));
                 product.setName(rs.getString("name"));
                 product.setPrice(rs.getDouble("price"));
