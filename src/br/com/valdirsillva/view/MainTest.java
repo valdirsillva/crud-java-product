@@ -23,6 +23,7 @@ public class MainTest {
 			System.out.println("[2] Cadastrar produto");
 			System.out.println("[3] Deletar produto");
 			System.out.println("[4] Recuperar produto pelo id");
+			System.out.println("[5] Atualizar produto pelo id");
 			option = inputMenu.nextInt();
 
 			switch (option) {
@@ -52,6 +53,15 @@ public class MainTest {
 					String id = "1825d6fb-6735-430d-abf3-28dda7d0e931";
 					Product pro = productService.getById(id);
 					System.out.println(pro);
+				case 5:
+					String uuid = "1825d6fb-6735-430d-abf3-28dda7d0e931";
+
+					product.setName("Smartphone Galary A301");
+					product.setDescription("Smartphone Galary A30 Samsung 16RAM");
+					product.setPrice(1900.00);
+					product.setQuantity(10);
+
+					productService.update(uuid, product);
 				default:
 					break;
 			}

@@ -145,9 +145,27 @@ public class ProductImpl implements IProduct {
     }
 
     @Override
-    public void update(String id) {
-        // TODO Auto-generated method stub
+    public void update(String id, Product product) {
+        try {
+            conexao = ConnectionManager.getInstance().getConnection();
+            pstmt = conexao.prepareStatement(
+                    "UPDATE product SET name = ?, price = ?, quantity = ?, description = ? WHERE id = ?");
 
+            pstmt.setString(1, product.getName());
+            pstmt.setDouble(2, product.getPrice());
+            pstmt.setInt(3, product.getQuantity());
+            pstmt.setString(4, product.getDescription());
+            pstmt.setString(5, id);
+            int numRow = pstmt.executeUpdate();
+
+            if (numRow > 0) {
+                System.out.println("Produto atualizado com sucesso!");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro an updated product:" + e.getMessage());
+            System.out.println("SQL state:" + e.getSQLState());
+            e.printStackTrace();
+        }
     }
-
 }

@@ -12,7 +12,7 @@ public interface IProduct {
 
 	Product findById(String id);
 
-	void update(String id);
+	void update(String id, Product product);
 
 	void delete(String id);
 }
